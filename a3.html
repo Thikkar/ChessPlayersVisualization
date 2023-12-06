@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Chess Players Interactive Visualization</title>
+    <link rel="stylesheet" type="text/css" href="a3.css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+</head>
+<body>
+    <div class="title">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chess_qdt45.svg/1920px-Chess_qdt45.svg.png">
+        <h2>&nbsp; Top Chess Players Interactive Visualization &nbsp;</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Chess_qlt45.svg/1920px-Chess_qlt45.svg.png">
+    </div>
+
+    <button type="button" class="collapsible"><em>Show Features</em></button>
+    <div class="instructions">
+        <ul>
+            <li>Toggle the filters to query the data </li>
+            <li>Click on the legend labels to highlight a player </li>
+            <li>Click on a scatter plot dot to highlight that player</li>
+            <li>Click on a country to highlight all players from the country</li>
+            <li>Hover over a country to learn the number of chess players from there on a given year</li>
+            <li>Hover over a dot on the scatter plot to discover the player and their rating</li>
+            <li>Click on multiple players, scatter plot dots, or countries!</li>
+        </ul>
+    </div>
+
+    <div class="filter-container">
+        <div class="year-selector-container">
+            <label for="yearSlider">Select Year</label>
+            <input type="range" min="2000" max="2017" step="1" id="yearSlider" value="2000">
+            <p> Year = <span id="yearText">2000</span></p>
+        </div>
+    
+        <div class="country-selector-container">
+            <label for="countrySelector">Select Countries</label>
+            <select name="countrySelector" id="countrySelector" multiple>
+                <option value="AFG">Afghanistan</option>
+                <option value="ALB">Albania</option>
+                <option value="DZA">Algeria</option>
+                <option value="AND">Andorra</option>
+                <option value="AGO">Angola</option>
+                <option value="ATG">Antigua and Barbuda</option>
+                <option value="ARG">Argentina</option>
+                <option value="ARM">Armenia</option>
+                <option value="AUS">Australia</option>
+                <option value="AUT">Austria</option>
+                <option value="AZE">Azerbaijan</option>
+                <option value="BHS">Bahamas</option>
+                <option value="BHR">Bahrain</option>
+                <option value="BGD">Bangladesh</option>
+                <option value="BRB">Barbados</option>
+                <option value="BLR">Belarus</option>
+                <option value="BEL">Belgium</option>
+                <option value="BLZ">Belize</option>
+                <option value="BEN">Benin</option>
+                <option value="BTN">Bhutan</option>
+                <option value="BOL">Bolivia</option>
+                <option value="BIH">Bosnia and Herzegovina</option>
+                <option value="BWA">Botswana</option>
+                <option value="BRA">Brazil</option>
+                <option value="BRN">Brunei</option>
+                <option value="BGR">Bulgaria</option>
+                <option value="BFA">Burkina Faso</option>
+                <option value="BDI">Burundi</option>
+                <option value="CPV">Cabo Verde</option>
+                <option value="KHM">Cambodia</option>
+                <option value="CMR">Cameroon</option>
+                <option value="CAN">Canada</option>
+                <option value="CAF">Central African Republic</option>
+                <option value="TCD">Chad</option>
+                <option value="CHL">Chile</option>
+                <option value="CHN">China</option>
+                <option value="COL">Colombia</option>
+                <option value="COM">Comoros</option>
+                <option value="COG">Congo</option>
+                <option value="CRI">Costa Rica</option>
+                <option value="HRV">Croatia</option>
+                <option value="CUB">Cuba</option>
+                <option value="CYP">Cyprus</option>
+                <option value="CZE">Czechia</option>
+                <option value="DNK">Denmark</option>
+                <option value="DJI">Djibouti</option>
+                <option value="DMA">Dominica</option>
+                <option value="DOM">Dominican Republic</option>
+                <option value="ECU">Ecuador</option>
+                <option value="EGY">Egypt</option>
+                <option value="SLV">El Salvador</option>
+                <option value="GNQ">Equatorial Guinea</option>
+                <option value="ERI">Eritrea</option>
+                <option value="EST">Estonia</option>
+                <option value="SWZ">Eswatini</option>
+                <option value="ETH">Ethiopia</option>
+                <option value="FJI">Fiji</option>
+                <option value="FIN">Finland</option>
+                <option value="FRA">France</option>
+                <option value="GAB">Gabon</option>
+                <option value="GMB">Gambia</option>
+                <option value="GEO">Georgia</option>
+                <option value="DEU">Germany</option>
+                <option value="GHA">Ghana</option>
+                <option value="GRC">Greece</option>
+                <option value="GRD">Grenada</option>
+                <option value="GTM">Guatemala</option>
+                <option value="GIN">Guinea</option>
+                <option value="GNB">Guinea-Bissau</option>
+                <option value="GUY">Guyana</option>
+                <option value="HTI">Haiti</option>
+                <option value="HND">Honduras</option>
+                <option value="HUN">Hungary</option>
+                <option value="ISL">Iceland</option>
+                <option value="IND">India</option>
+                <option value="IDN">Indonesia</option>
+                <option value="IRN">Iran</option>
+                <option value="IRQ">Iraq</option>
+                <option value="IRL">Ireland</option>
+                <option value="ISR">Israel</option>
+                <option value="ITA">Italy</option>
+                <option value="JAM">Jamaica</option>
+                <option value="JPN">Japan</option>
+                <option value="JOR">Jordan</option>
+                <option value="KAZ">Kazakhstan</option>
+                <option value="KEN">Kenya</option>
+                <option value="KIR">Kiribati</option>
+                <option value="KWT">Kuwait</option>
+                <option value="KGZ">Kyrgyzstan</option>
+                <option value="LAO">Laos</option>
+                <option value="LVA">Latvia</option>
+                <option value="LBN">Lebanon</option>
+                <option value="LSO">Lesotho</option>
+                <option value="LBR">Liberia</option>
+                <option value="LBY">Libya</option>
+                <option value="LIE">Liechtenstein</option>
+                <option value="LTU">Lithuania</option>
+                <option value="LUX">Luxembourg</option>
+                <option value="MDG">Madagascar</option>
+                <option value="MWI">Malawi</option>
+                <option value="MYS">Malaysia</option>
+                <option value="MDV">Maldives</option>
+                <option value="MLI">Mali</option>
+                <option value="MLT">Malta</option>
+                <option value="MHL">Marshall Islands</option>
+                <option value="MRT">Mauritania</option>
+                <option value="MUS">Mauritius</option>
+                <option value="MEX">Mexico</option>
+                <option value="FSM">Micronesia</option>
+                <option value="MDA">Moldova</option>
+                <option value="MCO">Monaco</option>
+                <option value="MNG">Mongolia</option>
+                <option value="MNE">Montenegro</option>
+                <option value="MAR">Morocco</option>
+                <option value="MOZ">Mozambique</option>
+                <option value="MMR">Myanmar</option>
+                <option value="NAM">Namibia</option>
+                <option value="NRU">Nauru</option>
+                <option value="NPL">Nepal</option>
+                <option value="NLD">Netherlands</option>
+                <option value="NZL">New Zealand</option>
+                <option value="NIC">Nicaragua</option>
+                <option value="NER">Niger</option>
+                <option value="NGA">Nigeria</option>
+                <option value="PRK">North Korea</option>
+                <option value="MKD">North Macedonia</option>
+                <option value="NOR">Norway</option>
+                <option value="OMN">Oman</option>
+                <option value="PAK">Pakistan</option>
+                <option value="PLW">Palau</option>
+                <option value="PSE">Palestine</option>
+                <option value="PAN">Panama</option>
+                <option value="PNG">Papua New Guinea</option>
+                <option value="PRY">Paraguay</option>
+                <option value="PER">Peru</option>
+                <option value="PHL">Philippines</option>
+                <option value="POL">Poland</option>
+                <option value="PRT">Portugal</option>
+                <option value="QAT">Qatar</option>
+                <option value="ROU">Romania</option>
+                <option value="RUS">Russia</option>
+                <option value="RWA">Rwanda</option>
+                <option value="KNA">Saint Kitts and Nevis</option>
+                <option value="LCA">Saint Lucia</option>
+                <option value="VCT">Saint Vincent and the Grenadines</option>
+                <option value="WSM">Samoa</option>
+                <option value="SMR">San Marino</option>
+                <option value="STP">Sao Tome and Principe</option>
+                <option value="SAU">Saudi Arabia</option>
+                <option value="SEN">Senegal</option>
+                <option value="SRB">Serbia</option>
+                <option value="SYC">Seychelles</option>
+                <option value="SLE">Sierra Leone</option>
+                <option value="SGP">Singapore</option>
+                <option value="SVK">Slovakia</option>
+                <option value="SVN">Slovenia</option>
+                <option value="SLB">Solomon Islands</option>
+                <option value="SOM">Somalia</option>
+                <option value="ZAF">South Africa</option>
+                <option value="KOR">South Korea</option>
+                <option value="ESP">Spain</option>
+                <option value="LKA">Sri Lanka</option>
+                <option value="SDN">Sudan</option>
+                <option value="SUR">Suriname</option>
+                <option value="SWE">Sweden</option>
+                <option value="CHE">Switzerland</option>
+                <option value="SYR">Syria</option>
+                <option value="TJK">Tajikistan</option>
+                <option value="TZA">Tanzania</option>
+                <option value="THA">Thailand</option>
+                <option value="TLS">Timor-Leste</option>
+                <option value="TGO">Togo</option>
+                <option value="TON">Tonga</option>
+                <option value="TTO">Trinidad and Tobago</option>
+                <option value="TUN">Tunisia</option>
+                <option value="TUR">Turkey</option>
+                <option value="TKM">Turkmenistan</option>
+                <option value="TUV">Tuvalu</option>
+                <option value="UGA">Uganda</option>
+                <option value="UKR">Ukraine</option>
+                <option value="ARE">United Arab Emirates</option>
+                <option value="GBR">United Kingdom</option>
+                <option value="USA">United States</option>
+                <option value="URY">Uruguay</option>
+                <option value="UZB">Uzbekistan</option>
+                <option value="VUT">Vanuatu</option>
+                <option value="VEN">Venezuela</option>
+                <option value="VNM">Vietnam</option>
+                <option value="YEM">Yemen</option>
+                <option value="ZMB">Zambia</option>
+                <option value="ZWE">Zimbabwe</option>
+            </select>
+        </div>
+    
+        <script>
+            new MultiSelectTag('countrySelector', {
+                rounded: true,    // default true
+                shadow: true,      // default false
+                placeholder: 'Search',  // default Search...
+                tagColor: {
+                    textColor: '#000',
+                    borderColor: '#0275ff',
+                    bgColor: '#80baff',
+                },
+                onChange: function(values) {
+                    const countries = values.map(obj => obj.value)
+                    const countriesText = countries.length > 0 ? " from" + values.map(obj => " " + obj.label) : "";
+                    d3.selectAll("#countriesText").text(countriesText);
+                    console.log(values)
+                    updateVisualization(
+                        +d3.select("#yearSlider").property("value"), 
+                        +d3.select(".min").property("value"),
+                        +d3.select(".max").property("value"),
+                        countries,
+                        +d3.select("#topKRange").property("value")
+                    );
+                }
+            })
+        </script>
+    
+        <div class="age-selector-container">
+            <label for="range">Select Age Range</label>
+            <div class="range">
+                <div class="range-slider">
+                  <span class="range-selected"></span>
+                </div>
+                <div class="range-input">
+                  <input type="range" class="min" min="0" max="70" value="0" step="1">
+                  <input type="range" class="max" min="0" max="70" value="70" step="1">
+                </div>
+                <div class="range-price">      
+                    Min Age = &nbsp; <span id="minAgeText">0</span> &nbsp; ｜ Max Age = &nbsp; <span id="maxAgeText">70</span>      
+                </div>
+            </div> 
+        </div>
+        
+        <div class="topK-selector-container">
+            <label for="topKRange">Select Top K Players</label>
+            <input type="range" min="0" max="10" step="1" id="topKRange" value="10">
+            <p>K = <span id="topKText">10</span></p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div id="visualizationContainer">
+        <div id="lineLegend">
+            <div id="lineChartContainer">
+                <p>Top <span id="topKText">10</span> Chess Players<span id="countriesText"></span>; Ages <span id="minAgeText">0</span> to <span id="maxAgeText">70</span> (2000 - <span id="yearText">2000</span>)</p>
+            </div>
+            <div id="legendContainer"></div>
+        </div>
+        <div id="subcells">
+            <div id="mapContainer">
+                <p>Countries of the Top <span id="topKText">10</span> Chess Players<span id="countriesText"></span>; Ages <span id="minAgeText">0</span> to <span id="maxAgeText">70</span> (<span id="yearText">2000</span>)</p>
+            </div>
+            <div id="scatterPlotContainer">
+                <p>Age vs. Rating of the Top <span id="topKText">10</span> Chess Players<span id="countriesText"></span>; Ages <span id="minAgeText">0</span> to <span id="maxAgeText">70</span> (<span id="yearText">2000</span>)</p>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="playerInfoContainer"></div> -->
+    <div id="extendedInfoContainer">
+    </div>
+
+<script>
+
+    // Dual Range Slider (https://w3collective.com/double-range-slider-html-css-js/)
+    let rangeMin = 6;
+    const range = document.querySelector(".range-selected");
+    const rangeInput = document.querySelectorAll(".range-input input");
+    const rangePrice = document.querySelectorAll(".range-price input");
+
+    rangeInput.forEach((input) => {
+        input.addEventListener("input", (e) => {
+            let minRange = parseInt(rangeInput[0].value);
+            let maxRange = parseInt(rangeInput[1].value);
+
+            if (maxRange - minRange < rangeMin) {     
+                if (e.target.className === "min") {
+                    rangeInput[0].value = maxRange - rangeMin;        
+                } else {
+                    rangeInput[1].value = minRange + rangeMin;        
+                }
+            } else {
+                range.style.left = (minRange / rangeInput[0].max) * 100 + "%";
+                range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
+            }
+        });
+    });
+
+    // Collapsible
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    }
+
+    // Set up SVG dimensions
+    const margin = { top: 20, right: 120, bottom: 50, left: 60 };
+    const width = 1000 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+    const scatterPlotWidth = 600 - margin.left - margin.right;
+    const scatterPlotHeight = 415 - margin.top - margin.bottom;
+    const mapWidth = 500 - margin.left - margin.right;
+    const mapHeight = 500 - margin.left - margin.right;
+
+    // Create SVG element
+    const svg = d3.select("#lineChartContainer")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const legendContainer = d3.select("#legendContainer")
+        .append("svg")
+        .attr("width", 350)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const mapContainer = d3.select("#mapContainer")
+        .append("svg")
+        .attr("width", scatterPlotHeight + margin.left + margin.right)
+        .attr("height", scatterPlotHeight + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(-" + 140 + ",-" + 50 + ")");
+
+    const scatterPlotContainer = d3.select("#scatterPlotContainer")
+        .append("svg")
+        .attr("width", scatterPlotWidth + margin.left + margin.right)
+        .attr("height", scatterPlotHeight + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + 115 + "," + margin.top + ")");
+
+    var mapTooltip = d3.select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .style("background", "#fff");
+
+    var scatterPlotTooltip = d3.select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .style("background", "#fff");
+
+    // Initial render
+    updateVisualization(2000);
+
+    let selectedCountriesInput = [];
+
+    // Add event listeners
+    d3.select("#yearSlider").on("change", function () {
+        const selectedYear = +this.value;
+        d3.selectAll("#yearText").text(selectedYear);
+        console.log(selectedCountriesInput)
+        updateVisualization(
+            selectedYear, 
+            +d3.select(".min").property("value"),
+            +d3.select(".max").property("value"),
+            selectedCountriesInput,
+            +d3.select("#topKRange").property("value"),
+            true);
+    });
+
+    d3.select(".min").on("change", function () {
+        const selectedMinAge = +this.value;
+        d3.selectAll("#minAgeText").text(selectedMinAge);
+        updateVisualization(
+            +d3.select("#yearSlider").property("value"), 
+            selectedMinAge,
+            +d3.select(".max").property("value"), 
+            selectedCountriesInput,
+            +d3.select("#topKRange").property("value"));
+    });
+
+    d3.select(".max").on("change", function () {
+        const selectedMaxAge = +this.value;
+        d3.selectAll("#maxAgeText").text(selectedMaxAge);
+        updateVisualization(
+            +d3.select("#yearSlider").property("value"), 
+            +d3.select(".min").property("value"), 
+            selectedMaxAge,
+            selectedCountriesInput,
+            +d3.select("#topKRange").property("value"));
+    });
+
+    // d3.select("#countrySelector").on("change", function () {
+    //     const selectedCountries = this.value.map(obj => obj.value);
+    //     console.log(selectedCountries)
+    //     updateVisualization(
+    //         +d3.select("#yearSlider").property("value"), 
+    //         +d3.select(".min").property("value"),
+    //         +d3.select(".max").property("value"),
+    //         selectedCountriesInput,
+    //         +d3.select("#topKRange").property("value"));
+    // });
+
+    d3.select("#topKRange").on("change", function () {
+        const selectedTopK = +this.value;
+        d3.selectAll("#topKText").text(selectedTopK);
+        updateVisualization(
+            +d3.select("#yearSlider").property("value"), 
+            +d3.select(".min").property("value"),
+            +d3.select(".max").property("value"),
+            selectedCountriesInput,
+            selectedTopK);
+    });
+
+    // Map vars
+    var path = d3.geoPath();
+    var projection = d3.geoMercator()
+        .scale(70)
+        .center([0,20])
+        .translate([width / 2, height / 2]);
+
+    let selectedPlayers = [];
+    let selectedCountries = [];
+    let prevSelectedYear = 2000;
+
+    // Function to update the visualization based on user input
+    async function updateVisualization(selectedYear, selectedMinAge = 0, selectedMaxAge = 70, selectedCountriesParam = [], selectedTopK = 10, resetSelectedPlayers = false) {
+        const chessPlayersData = await d3.json("fide_historical.json");
+
+        if (resetSelectedPlayers) {
+            selectedPlayers = [];
+            selectedCountries = [];
+            showSelectedPlayers();
+        }
+
+        var dataForMap = new Map();
+        selectedCountriesInput = selectedCountriesParam
+
+        // Parse dates and numbers
+        const parseDate = d3.timeParse("%d-%m-%y");
+        chessPlayersData.forEach(d => {
+            d.ranking_date = parseDate(d.ranking_date);
+            d.rating = +d.rating;
+            d.birth_year = +d.birth_year;
+        });
+
+        const filteredData = chessPlayersData.filter(d => {
+            return d.ranking_date.getFullYear() <= selectedYear &&
+                (selectedCountriesParam.length === 0 || selectedCountriesParam.includes(d.country)) &&
+                (selectedYear - d.birth_year) >= selectedMinAge && 
+                (selectedYear - d.birth_year) <= selectedMaxAge;
+        });
+
+        
+        const topPlayersData = getTopPlayersData(filteredData, selectedYear, selectedTopK);
+        const mapData = getMapData(filteredData, selectedYear, selectedTopK);
+
+        console.log(topPlayersData)
+        
+        // Set up scales
+        const xScale = d3.scaleTime().range([0, width]);
+        const yScale = d3.scaleLinear().range([height, 0]);
+        const scatterPlotXScale = d3.scaleLinear().range([0, scatterPlotWidth]);
+        const scatterPlotYScale = d3.scaleLinear().range([scatterPlotHeight, 0]);
+        const mapColorScale = d3.scaleThreshold()
+            .domain([1, 2, 3, 4, 5])
+            .range(d3.schemeBlues[5]);
+
+        // Line generator
+        const line = d3.line()
+            .x(d => xScale(d.ranking_date))
+            .y(d => yScale(d.rating))
+            .curve(d3.curveBasis);;
+
+        // Set domains
+        xScale.domain(d3.extent(filteredData, d => d.ranking_date));
+        // yScale.domain([
+        //     d3.min(topPlayersData, player => d3.min(player.data, d => d.rating)), 
+        //     d3.max(topPlayersData, player => d3.max(player.data, d => d.rating))
+        // ]);
+        yScale.domain([2600, 2900]);
+        scatterPlotXScale.domain([0, 80]);
+        scatterPlotYScale.domain([
+            d3.min(topPlayersData, player => d3.min(player.data, d => d.rating)), 
+            d3.max(topPlayersData, player => d3.max(player.data, d => d.rating))
+        ]);
+
+        svg.selectAll(".axis")
+            .transition()
+            .duration(500)
+            .style("opacity", 0)
+            .remove();
+
+        // X-axis
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale))
+            // .transition()
+            // .duration(500)
+            // .style("opacity", 1);
+
+        // Y-axis
+        svg.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(yScale))
+            .transition()
+            .duration(500)
+            .style("opacity", 1);
+
+        // axis labels
+        svg.append("text")
+            .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
+            .text("Year");
+
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left-4)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Rating");
+
+        // graph lines
+        var playerLines = svg.selectAll(".player-lines")
+            .data(topPlayersData, d => d.name);
+
+        playerLines.exit()
+            .transition()
+            .duration(500)
+            .style("opacity", 0) // Fade out the lines to be removed
+            .remove();
+
+        playerLines.enter()
+            .append("path")
+            .attr("class", "player-lines")
+            // .attr("d", d => line(d.data))
+            .style("stroke", (d, i) => nameToColor(d.name))
+            .style("fill", "none")
+            .style("stroke-linecap", "round")
+            .style("stroke-width", 3)
+            .merge(playerLines) // Merge existing and new lines
+            .transition()
+            .duration(500)
+            .attr("d", player => line(player.data))
+            .style("opacity", 1);
+
+        // graph dots
+        // svg.selectAll(".player-dots").remove();
+        // svg.selectAll(".player-points").remove();
+        // var playerDots = svg.selectAll(".player-dots")
+        //     .data(topPlayersData, d => d.name);
+
+        // playerDots.exit()
+        // .selectAll(".player-points")
+        // .data(function(d){return d.data})
+        // .enter()
+        //     .remove();
+
+        // playerDots.enter()
+        //     .selectAll(".player-points")
+        //     .data(function(d){return d.data})
+        //     .enter()
+        //     .append("circle")
+        //         .attr("r", 3)
+        //         .attr("cx", d => xScale(d.ranking_date))
+        //         .attr("cy", d => yScale(d.rating))
+        //         .style("fill", (d, i) => nameToColor(d.name))
+        //     .merge(playerDots)
+        //     .transition()
+        //     .duration(500)
+        //     .style("opacity", 1);
+
+        // legend,
+        const legendRects = legendContainer.selectAll(".legend-rects")
+            .data(topPlayersData, d => d.name);
+
+        legendRects.exit()
+            .transition()
+            .duration(500)
+            .style("opacity", 0)
+            .remove();
+
+        const newLegendRects = legendRects.enter()
+            .append("rect")
+            .attr("class", "legend-rects")
+            .attr("width", 18)
+            .attr("height", 18)
+            .merge(legendRects)
+            .attr("cursor", "pointer")
+            .style("opacity", 1)
+            .on("click", d => handlePlayerClick(d));
+
+        // Transition for smooth updates
+        newLegendRects.transition()
+            .duration(500) // Set the duration of the transition
+            // .attr("x", -60) // Adjust the x-coordinate
+            .attr("y", (player, i) => {
+                const lastDataPoint = player.data[player.data.length - 1];
+                // return yScale(lastDataPoint.rating) - 9; // Set the y-coordinate to the last data point's rating
+                return i * 60;
+            })
+            .style("fill", (d, i) => nameToColor(d.name))
+            .attr("opacity", 1);
+
+        const legendLabels = legendContainer.selectAll(".legend-labels")
+            .data(topPlayersData, d => d.name);
+
+        legendLabels.exit()
+            .transition()
+            .duration(500)
+            .style("opacity", 0)
+            .remove();
+
+        const newLegendLabels = legendLabels.enter()
+            .append("text")
+            .attr("class", "legend-labels")
+            .attr("dy", ".35em")
+            .attr("font-weight", "bold")
+            .style("text-anchor", "start") // Adjust the text anchor
+            .text(d => {console.log(d); return `${d.data[d.data.length-1].rank}. ${d.name} ${getCountryFlag(d.data[0].country)}`})
+            .attr("opacity", 1)
+            .merge(legendLabels);
+
+        legendLabels.text(d => {console.log(d); return `${d.data[d.data.length-1].rank}. ${d.name} ${getCountryFlag(d.data[0].country)}`});
+
+        newLegendLabels.transition()
+            .duration(500)
+            .attr("x", 25)
+            .attr("y", (player, i) => {
+                const lastDataPoint = player.data[player.data.length - 1];
+                // return yScale(lastDataPoint.rating); // Set the y-coordinate to the last data point's rating
+                return i * 60 + 9;
+            })
+            .attr("opacity", 1);
+
+        // Add Scatterplot axes
+        scatterPlotContainer.selectAll(".axis")
+            .transition()
+            .duration(500)
+            .style("opacity", 0)
+            .remove();
+
+        // X-Axis
+        scatterPlotContainer.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + scatterPlotHeight + ")")
+            .call(d3.axisBottom(scatterPlotXScale))
+            .transition()
+            .duration(500)
+            .style("opacity", 1);
+
+        // Y-axis
+        scatterPlotContainer.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(scatterPlotYScale))
+            .transition()
+            .duration(500)
+            .style("opacity", 1);
+
+        scatterPlotContainer.append("text")
+            .attr("transform", "translate(" + (scatterPlotWidth / 2) + " ," + (scatterPlotHeight + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
+            .text("Age");
+
+        scatterPlotContainer.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left-6)
+            .attr("x", 0 - (scatterPlotHeight / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Rating");
+
+        var scatterPlot = scatterPlotContainer.selectAll(".scatterplot-points");
+
+        scatterPlot.transition()
+            .duration(500)
+            .remove()
+            .style("opacity", 0);
+
+        // Plot Scatterplot
+        scatterPlotContainer.append('g')
+            .selectAll("dot")
+            .data(topPlayersData, d => d.name)
+            .enter()
+            .append("circle")
+            .attr("class", "scatterplot-points")
+            .attr("cx", d => scatterPlotXScale(selectedYear - d.data[0].birth_year))
+            .attr("cy", d => scatterPlotYScale(d.data[d.data.length-1].rating))
+            .attr("r", 5)
+            .style("fill", d => `${nameToColor(d.name)}`)
+            .on('mouseover', function(d) {
+                scatterPlotTooltip.html(`<strong>${d.name}</strong> ${getCountryFlag(d.data[0].country)} <br> Age: ${selectedYear - d.data[0].birth_year} <br> Rating: ${d.data[d.data.length-1].rating}`);
+                d3.select(this).attr("stroke", "red");
+                scatterPlotTooltip.style("visibility", "visible");
+                return scatterPlotTooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+            })
+            .on('mouseout', function(d) {
+                d3.select(this).attr("stroke", "transparent");
+                return scatterPlotTooltip.style("visibility", "hidden");
+            })
+            .on('click', d => handlePlayerClick(d))
+            .transition()
+            .duration(500)
+            .style("opacity", 1);
+
+        // Plot map
+        Promise.all([
+            d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"),
+        ]).then(function(loadData) {
+            mapData.forEach(datapoint => dataForMap.set(datapoint.countryCode, +datapoint.count))
+            let topo = loadData[0]
+
+            mapContainer.append("g")
+                .selectAll("path")
+                .data(topo.features)
+                .join("path")
+                .attr("class", "map")
+                // draw each country
+                .attr("d", d3.geoPath()
+                    .projection(projection)
+                )
+                .attr("fill", function (d) {
+                    d.total = dataForMap.get(d.id) || 0;
+                    return mapColorScale(d.total);
+                })
+                .on('mouseover', function(d) {
+                    mapTooltip.html(`<strong>${d.properties.name} ${getCountryFlag(d.id)}</strong> <br> Players: ${d.total}`);
+                    d3.select(this).attr("fill", "red");
+                    mapTooltip.style("visibility", "visible");
+                    return mapTooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
+                })
+                .on('mouseout', function(d) {
+                    d.total = dataForMap.get(d.id) || 0;
+                    d3.select(this).attr("fill", `${mapColorScale(d.total)}`);
+                    return mapTooltip.style("visibility", "hidden");
+                })
+                .on('click', d => handleCountryClick(d, topPlayersData));    
+        })
+    }
+
+    // Function to get top 10 players based on rating
+    function getTopPlayersData(data, selectedYear, selectedTopK) {
+        const dataByPlayers = d3.nest()
+            .key(d => d.name)
+            .sortValues((a, b) => {
+                return d3.descending(a.ranking_date.getFullYear(), b.ranking_date.getFullYear());
+            })
+            .entries(data);
+
+        // console.log(dataByPlayers)
+
+        const topPlayersData = dataByPlayers.sort((a, b) => {
+            const ratingA = a.values[0].ranking_date.getFullYear() === selectedYear ? a.values[0].rating : 0;
+            const ratingB = b.values[0].ranking_date.getFullYear() === selectedYear ? b.values[0].rating : 0;
+
+            return ratingB - ratingA;
+        }).map(group => {
+            return {
+                name: group.key,
+                data: group.values
+                    .filter(d => d.ranking_date.getFullYear() <= selectedYear)
+                    .sort((a, b) => d3.ascending(a.ranking_date.getFullYear(), b.ranking_date.getFullYear()))
+            };
+        }).sort((a,b) => {
+            const rankA = a.data[a.data.length-1].ranking_date.getFullYear() === selectedYear ? a.data[a.data.length-1].rank : 200;
+            const rankB = b.data[b.data.length-1].ranking_date.getFullYear() === selectedYear ? b.data[b.data.length-1].rank : 200;
+
+            return rankA - rankB;
+        }).slice(0, selectedTopK);
+
+        // const topPlayersDataSorted = topPlayersData.sort((a,b) => a.data[a.data.length-1].rank - b.data[b.data.length-1].rank)
+
+        return topPlayersData;
+    }
+
+    function getMapData(data, selectedYear, selectedTopK) {
+        let topPlayers = [];
+        let topPlayersCountries = [];
+        let nameToCountry = {};
+        for (let i = selectedYear; i < selectedYear+1; i++) {
+            const filteredDataByYear = data.filter(d => {
+                return d.ranking_date.getFullYear() <= i
+            });
+            let topPlayersForYear = getTopPlayersData(filteredDataByYear, i, selectedTopK);
+            topPlayersForYear.forEach(player => {
+                nameToCountry[player.name] = player.data[0].country;
+            })
+            topPlayers = topPlayers.concat(topPlayersForYear.map(player => player.name));
+            topPlayersCountries = topPlayersCountries.concat(topPlayersForYear.map(player => player.data[0].country));
+        }
+
+        // get unique
+        topPlayers = Array.from(new Set(topPlayers));
+        topPlayersCountries = Array.from(new Set(topPlayersCountries));
+        const filteredDataByTopPlayers = data.filter(d => {
+                                            return d.ranking_date.getFullYear() <= selectedYear
+                                         }).filter(d => {
+                                            return topPlayers.includes(d.name)
+                                         });
+        let dataByCountries = d3.nest()
+            .key(d => d.country)
+            .entries(filteredDataByTopPlayers);
+
+        const countryCounts = {};
+        topPlayersCountries.forEach(country => {
+            countryCounts[country] = 0;
+        });
+
+        topPlayers.forEach(name => {
+            countryCounts[nameToCountry[name]] += 1;
+        })
+
+        // Convert countryCounts into an array of objects
+        const aggregatedData = Object.keys(countryCounts).map(countryCode => {
+            return {
+                countryCode: countryCode,
+                count: countryCounts[countryCode]
+            };
+        });
+
+        console.log(aggregatedData)
+
+        return aggregatedData;
+    }
+
+    function handleCountryClick(selectedCountry, topPlayersData) {
+        console.log(topPlayersData)
+        // selectedPlayers = [];
+        const index = selectedCountries.findIndex(country => country === selectedCountry.id);
+        if (index !== -1) {
+            // Country is already selected, remove from the array
+            selectedCountries.splice(index, 1);
+            console.log(selectedCountries);
+            selectedPlayers = selectedPlayers.filter(player => selectedCountries.includes(player.data[0].country))
+        } else {
+            // Country is not selected, add to the array
+            selectedCountries.push(selectedCountry.id);
+            selectedPlayers = selectedPlayers.filter(player => selectedCountries.includes(player.data[0].country))
+            console.log(selectedCountries);
+            for (let player of topPlayersData) {
+                if (player.data[0].country === selectedCountry.id) selectedPlayers.push(player)
+            }
+        }
+
+        showSelectedPlayers();
+    }
+
+    // Function to handle line click
+    function handlePlayerClick(selectedPlayer) {
+        // Toggle the selection status of the player
+        selectedCountries = [];
+        const index = selectedPlayers.findIndex(player => player.name === selectedPlayer.name);
+        if (index !== -1) {
+            // Player is already selected, remove from the array
+            selectedPlayers.splice(index, 1);
+        } else {
+            // Player is not selected, add to the array
+            selectedPlayers.push(selectedPlayer);
+        }
+
+        // Update the display based on selected players
+        showSelectedPlayers();
+    }
+
+    // Function to update the display based on selected players
+    function showSelectedPlayers() {
+        console.log(selectedPlayers)
+        // Update the opacity of all lines based on selection
+        const selectedPlayersData = selectedPlayers.map(player => player)
+        const selectedPlayersCountryData = selectedPlayers.map(player => player.data[0].country)
+        console.log(selectedPlayersData)
+        d3.selectAll(".player-lines")
+            .transition()
+            .duration(500)
+            .style("opacity", d => (selectedPlayers.length === 0 || selectedPlayersData.includes(d) ? 1 : 0.2));
+
+        d3.selectAll(".legend-rects")
+            .transition()
+            .duration(500)
+            .style("opacity", d => (selectedPlayers.length === 0 || selectedPlayersData.includes(d) ? 1 : 0.2));
+
+        d3.selectAll(".map")
+            .transition()
+            .duration(500)
+            .style("stroke", d => (selectedPlayers.length === 0 || !selectedPlayersCountryData.includes(d.id) ? "transparent" : "red"))
+            // .attr("transform", d => (selectedPlayers.length === 0 || !selectedPlayersCountryData.includes(d.id) ? "scale(1)" : "scale(1.1)"))
+            // .attr("transform", d => (selectedPlayers.length === 0 || !selectedPlayersCountryData.includes(d.id) ? "translate(0)" : "translate(-" + 0 + ",-" + 0 + ")"));
+            
+        d3.selectAll(".scatterplot-points")
+            .transition()
+            .duration(500)
+            .style("opacity", d => (selectedPlayers.length === 0 || selectedPlayersData.includes(d) ? 1 : 0.2))
+            // .style("stroke", d => (selectedPlayers.length === 0 || !selectedPlayersData.includes(d) ? "transparent" : `${nameToColor(d.name)}`))
+            // .style("stroke-width", d => (selectedPlayers.length === 0 || !selectedPlayersData.includes(d) ? "0px" : "10px"))
+            .attr("r", d => (selectedPlayers.length === 0 || !selectedPlayersData.includes(d) ? 5 : 15));
+
+        // Display player information in a component below the graph
+        // displayPlayerInfo();
+    }
+
+    // Function to display player information
+    // function displayPlayerInfo() {
+    //     const infoContainer = d3.select("#playerInfoContainer");
+
+    //     // Remove existing player information
+    //     infoContainer.selectAll("*").remove();
+
+    //     // Append player information to the container for each selected player
+    //     selectedPlayers.forEach(player => {
+    //         infoContainer.append("p").text(`Name: ${player.name}`);
+    //         infoContainer.append("p").text(`Birth Year: ${player.data[0].birth_year}`);
+    //         infoContainer.append("p").text(`Country: ${getCountryFlag(player.data[0].country)}`);
+    //         // Add more information as needed
+    //         infoContainer.append("hr"); // Add a horizontal line between player information
+    //     });
+    // }
+
+    // Hash function from ChatGPT
+    function nameToColor(name) {
+        function hashString(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = (hash << 5) - hash + char;
+                hash |= 0; // Convert to 32-bit integer
+            }
+            return hash;
+        }
+
+        // Convert the hash to a positive number
+        const positiveHash = hashString(name) & 0x7fffffff;
+
+        // Convert the positive hash to a color in hexadecimal format
+        const color = '#' + (positiveHash % 0xFFFFFF).toString(16).padStart(6, '0');
+
+        return color;
+    }
+
+    function getCountryFlag(countryCode) {
+        // Map country codes to corresponding flag emojis
+        const flagMap = {
+            "AFG": "🇦🇫",
+            "ALB": "🇦🇱",
+            "DZA": "🇩🇿",
+            "AND": "🇦🇩",
+            "AGO": "🇦🇴",
+            "ATG": "🇦🇬",
+            "ARG": "🇦🇷",
+            "ARM": "🇦🇲",
+            "AUS": "🇦🇺",
+            "AUT": "🇦🇹",
+            "AZE": "🇦🇿",
+            "BHS": "🇧🇸",
+            "BHR": "🇧🇭",
+            "BGD": "🇧🇩",
+            "BRB": "🇧🇧",
+            "BLR": "🇧🇾",
+            "BEL": "🇧🇪",
+            "BLZ": "🇧🇿",
+            "BEN": "🇧🇯",
+            "BTN": "🇧🇹",
+            "BOL": "🇧🇴",
+            "BIH": "🇧🇦",
+            "BWA": "🇧🇼",
+            "BRA": "🇧🇷",
+            "BRN": "🇧🇳",
+            "BGR": "🇧🇬",
+            "BFA": "🇧🇫",
+            "BDI": "🇧🇮",
+            "CPV": "🇨🇻",
+            "KHM": "🇰🇭",
+            "CMR": "🇨🇲",
+            "CAN": "🇨🇦",
+            "CAF": "🇨🇫",
+            "TCD": "🇹🇩",
+            "CHL": "🇨🇱",
+            "CHN": "🇨🇳",
+            "COD": "🇨🇩",
+            "COL": "🇨🇴",
+            "COM": "🇰🇲",
+            "COG": "🇨🇬",
+            "CRI": "🇨🇷",
+            "HRV": "🇭🇷",
+            "CUB": "🇨🇺",
+            "CYP": "🇨🇾",
+            "CZE": "🇨🇿",
+            "DNK": "🇩🇰",
+            "DJI": "🇩🇯",
+            "DMA": "🇩🇲",
+            "DOM": "🇩🇴",
+            "ECU": "🇪🇨",
+            "EGY": "🇪🇬",
+            "SLV": "🇸🇻",
+            "GNQ": "🇬🇶",
+            "ERI": "🇪🇷",
+            "EST": "🇪🇪",
+            "SWZ": "🇸🇿",
+            "ETH": "🇪🇹",
+            "FJI": "🇫🇯",
+            "FIN": "🇫🇮",
+            "FRA": "🇫🇷",
+            "GAB": "🇬🇦",
+            "GMB": "🇬🇲",
+            "GEO": "🇬🇪",
+            "DEU": "🇩🇪",
+            "GHA": "🇬🇭",
+            "GRC": "🇬🇷",
+            "GRD": "🇬🇩",
+            "GTM": "🇬🇹",
+            "GIN": "🇬🇳",
+            "GNB": "🇬🇼",
+            "GUY": "🇬🇾",
+            "HTI": "🇭🇹",
+            "HND": "🇭🇳",
+            "HUN": "🇭🇺",
+            "ISL": "🇮🇸",
+            "IND": "🇮🇳",
+            "IDN": "🇮🇩",
+            "IRN": "🇮🇷",
+            "IRQ": "🇮🇶",
+            "IRL": "🇮🇪",
+            "ISR": "🇮🇱",
+            "ITA": "🇮🇹",
+            "JAM": "🇯🇲",
+            "JPN": "🇯🇵",
+            "JOR": "🇯🇴",
+            "KAZ": "🇰🇿",
+            "KEN": "🇰🇪",
+            "KIR": "🇰🇮",
+            "KWT": "🇰🇼",
+            "KGZ": "🇰🇬",
+            "LAO": "🇱🇦",
+            "LVA": "🇱🇻",
+            "LBN": "🇱🇧",
+            "LSO": "🇱🇸",
+            "LBR": "🇱🇷",
+            "LBY": "🇱🇾",
+            "LIE": "🇱🇮",
+            "LTU": "🇱🇹",
+            "LUX": "🇱🇺",
+            "MKD": "🇲🇰",
+            "MDG": "🇲🇬",
+            "MWI": "🇲🇼",
+            "MYS": "🇲🇾",
+            "MDV": "🇲🇻",
+            "MLI": "🇲🇱",
+            "MLT": "🇲🇹",
+            "MHL": "🇲🇭",
+            "MRT": "🇲🇷",
+            "MUS": "🇲🇺",
+            "MEX": "🇲🇽",
+            "FSM": "🇫🇲",
+            "MDA": "🇲🇩",
+            "MCO": "🇲🇨",
+            "MNG": "🇲🇳",
+            "MNE": "🇲🇪",
+            "MAR": "🇲🇦",
+            "MOZ": "🇲🇿",
+            "MMR": "🇲🇲",
+            "NAM": "🇳🇦",
+            "NRU": "🇳🇷",
+            "NPL": "🇳🇵",
+            "NLD": "🇳🇱",
+            "NZL": "🇳🇿",
+            "NIC": "🇳🇮",
+            "NER": "🇳🇪",
+            "NGA": "🇳🇬",
+            "KOR": "🇰🇷",
+            "NOR": "🇳🇴",
+            "OMN": "🇴🇲",
+            "OSA": "🇽🇰",
+            "PAK": "🇵🇰",
+            "PLW": "🇵🇼",
+            "PAN": "🇵🇦",
+            "PNG": "🇵🇬",
+            "PRY": "🇵🇾",
+            "PER": "🇵🇪",
+            "PHL": "🇵🇭",
+            "POL": "🇵🇱",
+            "PRT": "🇵🇹",
+            "PSE": "🇵🇸",
+            "QAT": "🇶🇦",
+            "ROU": "🇷🇴",
+            "RUS": "🇷🇺",
+            "RWA": "🇷🇼",
+            "KNA": "🇰🇳",
+            "LCA": "🇱🇨",
+            "VCT": "🇻🇨",
+            "WSM": "🇼🇸",
+            "SMR": "🇸🇲",
+            "STP": "🇸🇹",
+            "SAU": "🇸🇦",
+            "SEN": "🇸🇳",
+            "SRB": "🇷🇸",
+            "SYC": "🇸🇨",
+            "SLE": "🇸🇱",
+            "SGP": "🇸🇬",
+            "SVK": "🇸🇰",
+            "SVN": "🇸🇮",
+            "SLB": "🇸🇧",
+            "SOM": "🇸🇴",
+            "ZAF": "🇿🇦",
+            "SSD": "🇸🇸",
+            "ESP": "🇪🇸",
+            "LKA": "🇱🇰",
+            "SDN": "🇸🇩",
+            "SDS": "🇸🇸",
+            "SUR": "🇸🇷",
+            "SWZ": "🇸🇿",
+            "SWE": "🇸🇪",
+            "CHE": "🇨🇭",
+            "SYR": "🇸🇾",
+            "TJK": "🇹🇯",
+            "TZA": "🇹🇿",
+            "THA": "🇹🇭",
+            "TLS": "🇹🇱",
+            "TGO": "🇹🇬",
+            "TON": "🇹🇴", // Tonga
+            "TTO": "🇹🇹", // Trinidad and Tobago
+            "TUN": "🇹🇳", // Tunisia
+            "TUR": "🇹🇷", // Turkey
+            "TKM": "🇹🇲", // Turkmenistan
+            "TCA": "🇹🇨", // Turks and Caicos Islands
+            "TUV": "🇹🇻", // Tuvalu
+            "TWN": "🇹🇼",
+            "UGA": "🇺🇬", // Uganda
+            "UKR": "🇺🇦", // Ukraine
+            "ARE": "🇦🇪", // United Arab Emirates
+            "GBR": "🇬🇧", // United Kingdom
+            "USA": "🇺🇸", // United States
+            "URY": "🇺🇾", // Uruguay
+            "UZB": "🇺🇿", // Uzbekistan
+            "VUT": "🇻🇺", // Vanuatu
+            "VAT": "🇻🇦", // Vatican City
+            "VEN": "🇻🇪", // Venezuela
+            "VNM": "🇻🇳", // Vietnam
+            "WLF": "🇼🇫", // Wallis and Futuna
+            "ESH": "🇪🇭", // Western Sahara
+            "YEM": "🇾🇪", // Yemen
+            "ZMB": "🇿🇲", // Zambia
+            "ZWE": "🇿🇼", // Zimbabwe
+        }
+
+        return flagMap[countryCode] || countryCode; // Default to country code if no flag emoji is available
+    }
+</script>
+
+</body>
+</html>
