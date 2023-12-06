@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=http://thikkar.github.io/ChessPlayersVisualization/a3.html" />
     <title>Top Chess Players Interactive Visualization</title>
     <link rel="stylesheet" type="text/css" href="a3.css" />
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -533,7 +534,7 @@
         //     d3.min(topPlayersData, player => d3.min(player.data, d => d.rating)), 
         //     d3.max(topPlayersData, player => d3.max(player.data, d => d.rating))
         // ]);
-        yScale.domain([2600, 2900]);
+        yScale.domain([2595, 2900]);
         scatterPlotXScale.domain([0, 80]);
         scatterPlotYScale.domain([
             d3.min(topPlayersData, player => d3.min(player.data, d => d.rating)), 
@@ -827,7 +828,10 @@
 
         // const topPlayersDataSorted = topPlayersData.sort((a,b) => a.data[a.data.length-1].rank - b.data[b.data.length-1].rank)
 
-        return topPlayersData;
+        const topPlayersDataFiltered = topPlayersData.filter(player => player.data[player.data.length-1].ranking_date.getFullYear() === selectedYear);
+        console.log(topPlayersDataFiltered)
+
+        return topPlayersDataFiltered;
     }
 
     function getMapData(data, selectedYear, selectedTopK) {
